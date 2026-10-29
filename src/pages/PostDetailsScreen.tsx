@@ -19,6 +19,7 @@ const railEdge = "sm:ml-20";
 const PostDetailsScreen = () => {
   const { postId } = useParams();
   const { isPending, isError, error, data, refetch } = usePost(Number(postId));
+  const year = data?.createdAt?.slice(0, 4) ?? 'N/A';
 
   if (isPending) {
     return (
@@ -86,6 +87,7 @@ const PostDetailsScreen = () => {
         <h1 className="mt-3 font-reading text-[2.125rem] leading-[1.04] tracking-[-0.025em] text-balance sm:text-[3rem]">
           {data.title}
         </h1>
+
         <div className="mt-7 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-border pt-4 text-sm text-muted-foreground">
           {typeof data.userId === "number" && (
             <span className="flex items-center gap-2.5">
@@ -93,8 +95,12 @@ const PostDetailsScreen = () => {
               Author {data.userId}
             </span>
           )}
-          <FormattedDate value={data.createdAt} />
+          <div className="flex items-center gap-2">
+            <span>{year}</span> {/* Dito natin ginamit ang 'year' variable */}
+            <FormattedDate value={data.createdAt} />
+          </div>
         </div>
+
         {paragraphs.length > 0 && (
           <div
             className={`mt-9 max-w-[34rem] font-reading text-[1.0625rem] leading-[1.75] text-foreground/90 ${railEdge}`}
